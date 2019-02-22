@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HPP Lightbox Demo</title>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="/rxp-js.js"></script>
+    <script>
+      RealexHpp.setHppUrl('https://pay.sandbox.realexpayments.com/pay');
+      // get the HPP JSON from the server-side SDK
+      $(document).ready(function () {
+        $.getJSON("/get-json", function (jsonFromServerSdk) {
+          RealexHpp.embedded.init(
+            "payButtonId",
+            "targetIframe",
+            "http://localhost:3000/",
+            jsonFromServerSdk
+          );
+          $('body').addClass('loaded');
+        });
+      });
+    </script>
+</head>
+<body>
+<input type="submit" id="payButtonId" value="Checkout Now" />
+<br />
+<iframe id="targetIframe" style="display:none;"></iframe>
+</body>
+</html>

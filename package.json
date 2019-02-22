@@ -1,0 +1,21 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "now",
+    "develop": "micro-dev",
+    "start": "micro"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "globalpayments-api": "^1.1.1",
+    "micro": "^9.3.3",
+    "urlencoded-body-parser": "^2.0.1"
+  },
+  "devDependencies": {
+    "micro-dev": "^3.0.0"
+  }
+}
