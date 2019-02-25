@@ -19,6 +19,7 @@
             jsonFromServerSdk
           );
           $('body').addClass('loaded');
+          $("#payButtonId").trigger("click");
         });
         // $.getJSON("/get-hpp-authorize", function (jsonFromServerSdk) {
         //   console.log('jsonFromServerSdk', jsonFromServerSdk)
@@ -37,12 +38,12 @@
       //     RealexHpp.lightbox.init("payButtonId", "http://localhost:3000/", jsonFromRequestEndpoint);
       //   });
       // });
+
     </script>
 </head>
 <body>
-<input type="submit" id="payButtonId" value="Checkout Now" />
-<input type="submit" id="payButtonId2" value="Checkout By Server" />
+<input type="submit" style="display: none" id="payButtonId" value="Checkout Now" />
 <br />
-<iframe id="targetIframe" style="display:none;width: 100%;height: 600px;"></iframe>
+<iframe id="targetIframe" style="display:none;width: 100%;height: 100%;"></iframe>
 </body>
 </html>
