@@ -38,14 +38,26 @@ module.exports = async (req, res) => {
   switch (req.method) {
     case 'GET':
       if (req.url.indexOf('/get-json') === 0) {
-        const json = service
+        let json = service
           .charge(1)
           .withCurrency("USD")
           .serialize();
-
-        console.log("data Json: ", json);
-        res.end(json);
-        return;
+    
+          json = JSON.parse(json);
+    
+          json.MERCHANT_ID = config.merchantId;
+          json.ACCOUNT = config.accountId;
+          json.AMOUNT = Buffer.from(json.AMOUNT, 'base64').toString();
+          json.CURRENCY = Buffer.from(json.CURRENCY, 'base64').toString();
+          json.TIMESTAMP = Buffer.from(json.TIMESTAMP, 'base64').toString();
+          json.AUTO_SETTLE_FLAG = Buffer.from(json.AUTO_SETTLE_FLAG, 'base64').toString();
+          json.MERCHANT_RESPONSE_URL = Buffer.from(json.MERCHANT_RESPONSE_URL, 'base64').toString();
+          json.HPP_LANG = Buffer.from(json.HPP_LANG, 'base64').toString();
+          json.SHA1HASH = Buffer.from(json.SHA1HASH, 'base64').toString();
+          json.ORDER_ID = Buffer.from(json.ORDER_ID, 'base64').toString();
+    
+          res.end(JSON.stringify(json));
+          return;
       }
       if (req.url.indexOf('/rxp-js.js') === 0) {
         await showRxp(res);
