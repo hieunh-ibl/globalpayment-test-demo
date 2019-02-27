@@ -1,0 +1,117 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "bef67803a05a12070e73f02cfb7b07e9",
+    "packages": [
+        {
+            "name": "globalpayments/php-sdk",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/globalpayments/php-sdk.git",
+                "reference": "100c030d6da8d5e34a3544bb5829af7844efea3d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/globalpayments/php-sdk/zipball/100c030d6da8d5e34a3544bb5829af7844efea3d",
+                "reference": "100c030d6da8d5e34a3544bb5829af7844efea3d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-dom": "*",
+                "ext-openssl": "*",
+                "php": ">= 5.5.9"
+            },
+            "require-dev": {
+                "brianium/paratest": "dev-master",
+                "phpstan/phpstan-shim": "^0.8.4",
+                "phpunit/phpunit": "~5.0",
+                "squizlabs/php_codesniffer": "2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GlobalPayments\\Api\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Heartland Payment Systems"
+                }
+            ],
+            "description": "PHP SDK for processing payments with Global Payments, including Heartland Payment Systems and Realex Payments",
+            "homepage": "https://developer.heartlandpaymentsystems.com/documentation",
+            "time": "2019-02-19T15:46:47+00:00"
+        },
+        {
+            "name": "morris/microdb",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/morris/microdb.git",
+                "reference": "61d6a6b01752fcf292931a6764cc42a5a607f7ee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/morris/microdb/archive/master.zip",
+                "reference": "61d6a6b01752fcf292931a6764cc42a5a607f7ee",
+                "shasum": null
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpcov": "2.*",
+                "phpunit/phpunit": "~4.8",
+                "satooshi/php-coveralls": "~1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Morris Brodersen",
+                    "homepage": "http://morrisbrodersen.de",
+                    "role": "Owner"
+                },
+                {
+                    "name": "Rick de Graaff",
+                    "homepage": "http://rickdegraaff.nl",
+                    "role": "Contributor"
+                }
+            ],
+            "description": "MicroDB is a minimalistic file-based JSON object database written in PHP.",
+            "homepage": "http://morris.github.io/microdb",
+            "keywords": [
+                "database",
+                "file",
+                "json"
+            ],
+            "abandoned": true,
+            "time": "2016-08-27T12:12:27+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
