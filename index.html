@@ -15,7 +15,7 @@
           RealexHpp.embedded.init(
             "payButtonId",
             "targetIframe",
-            "http://localhost/response-hpp.php",
+            "http://localhost:3000/response-hpp",
             jsonFromServerSdk
           );
           $('input[name="TIMESTAMP"]').val(jsonFromServerSdk.TIMESTAMP)
@@ -65,7 +65,7 @@
   <input type="hidden" name="COMMENT1" value="New Subscription">
   <input type="hidden" name="AUTO_SETTLE_FLAG" value="1">
   <input type="hidden" name="HPP_VERSION" value="2">
-  <input type="hidden" name="MERCHANT_RESPONSE_URL" value="https://localhost/charge-case">
+  <input type="hidden" name="MERCHANT_RESPONSE_URL" value="https://localhost:3000/charge-case">
   <!-- PayPal Specific Fields-->
   <input type="hidden" name="SHIPPING_ADDRESS_ENABLE" value="1">
   <input type="hidden" name="ADDRESS_OVERRIDE" value="1">
@@ -86,7 +86,7 @@
   <input type="hidden" name="PM_METHODS" value="paypal">
   <!-- End APMs Optional Fields -->
   <input type="hidden" name="SHA1HASH" value="308bb8dfbbfcc67c28d602d988ab104c3b08d012">
-  <input type="submit" value="Click To Pay">
+  <input type="submit" value="Click To Paypal">
 </form>
 <iframe id="targetIframe" style="display:none;width: 100%;height: 100%;"></iframe>
 </body>

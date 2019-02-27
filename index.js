@@ -125,7 +125,7 @@ module.exports = async (req, res) => {
         const json = service
           .charge(1)
           .withModifier(TransactionModifier.EncryptedMobile)
-          .withCurrency('EUR')
+          .withCurrency('USD')
           // .withHostedPaymentData(hostedPaymentData)
           .serialize()
         res.end(json)
