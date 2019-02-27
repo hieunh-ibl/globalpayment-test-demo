@@ -12,6 +12,7 @@ const {
   TransactionModifier
   // HostedPaymentData
 } = require('globalpayments-api')
+const sha1 = require('sha1')
 const fs = require('fs')
 const { promisify } = require('util')
 // const PouchDB = require('pouchdb')
@@ -23,13 +24,14 @@ const config = new ServicesConfig()
 config.merchantId = 'Quantatest'
 config.accountId = 'internet'
 config.sharedSecret = 'secret'
-config.refundPassword = 'refund'
+// config.refundPassword = 'refund'
 config.serviceUrl = 'https://pay.sandbox.realexpayments.com/pay'
 
 const responseConfig = new ServicesConfig()
 responseConfig.merchantId = 'Quantatest'
 responseConfig.accountId = 'internet'
 responseConfig.sharedSecret = 'secret'
+console.log('>>>>>>>>>>>', sha1('refund'))
 responseConfig.refundPassword = 'refund'
 responseConfig.serviceUrl = 'https://api.sandbox.realexpayments.com/epage-remote.cgi'
 
