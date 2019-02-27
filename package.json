@@ -13,6 +13,7 @@
   "dependencies": {
     "globalpayments-api": "^1.1.1",
     "micro": "^9.3.3",
+    "pouchdb": "^7.0.0",
     "urlencoded-body-parser": "^2.0.1"
   },
   "devDependencies": {

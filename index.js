@@ -1,30 +1,37 @@
 const formData = require('urlencoded-body-parser')
+const { json } = require('micro')
 const {
+  Address,
+  HppVersion,
   HostedPaymentConfig,
   HostedService,
   ServicesConfig,
   Transaction,
-  ServicesContainer
+  ServicesContainer,
+  CreditCardData,
+  TransactionModifier
+  // HostedPaymentData
 } = require('globalpayments-api')
 const fs = require('fs')
 const { promisify } = require('util')
+// const PouchDB = require('pouchdb')
+
+// const db = new PouchDB('my_db')
 const readFileAsync = promisify(fs.readFile)
 
 const config = new ServicesConfig()
-config.merchantId = 'quantatest'
+config.merchantId = 'Quantatest'
 config.accountId = 'internet'
 config.sharedSecret = 'secret'
+config.refundPassword = 'refund'
 config.serviceUrl = 'https://pay.sandbox.realexpayments.com/pay'
 
 const responseConfig = new ServicesConfig()
-responseConfig.merchantId = 'quantatest'
+responseConfig.merchantId = 'Quantatest'
 responseConfig.accountId = 'internet'
 responseConfig.sharedSecret = 'secret'
+responseConfig.refundPassword = 'refund'
 responseConfig.serviceUrl = 'https://api.sandbox.realexpayments.com/epage-remote.cgi'
-
-config.hostedPaymentConfig = new HostedPaymentConfig()
-config.hostedPaymentConfig.language = 'US'
-config.hostedPaymentConfig.responseUrl = 'http://requestb.in/10q2bjb1'
 
 // const address = new Address()
 // address.postalCode = '123|56'
@@ -36,6 +43,10 @@ const renderIndex = async (res) => {
 }
 const renderSuccess = async (res) => {
   const html = await readFileAsync('success.html')
+  res.end(html)
+}
+const renderDigital = async (res) => {
+  const html = await readFileAsync('digital.html')
   res.end(html)
 }
 const getFile = async (res, url = 'rxp-js.js') => {
@@ -70,8 +81,26 @@ function parseBase64 (jsonString) {
 module.exports = async (req, res) => {
   switch (req.method) {
     case 'GET':
-      if (req.url.indexOf('/get-hpp-authorize') === 0) {
+      if (req.url.indexOf('/refund') === 0) {
+        ServicesContainer.configure(responseConfig)
+        const card = new CreditCardData()
+        card.number = '4263970000005262'
+        card.expMonth = '12'
+        card.expYear = '2025'
+        card.cardHolderName = 'James Mason'
+        try {
+          const response = await card
+            .refund(1)
+            .withCurrency('USD')
+            .execute()
+          console.log('responseCode', response.responseCode)
+          console.log('responseMessage', response.responseMessage)
+        } catch (err) {
+          console.log('error', err)
+        }
+      } else if (req.url.indexOf('/get-hpp-authorize') === 0) {
         const service = new HostedService(config)
+
         const json = service
           .authorize(1)
           .withCurrency('USD')
@@ -79,13 +108,29 @@ module.exports = async (req, res) => {
         const response = parseBase64(json)
         res.end(JSON.stringify(response))
       } else if (req.url.indexOf('/get-hpp-charge') === 0) {
+        const hostedPaymentConfig = new HostedPaymentConfig()
+        // hostedPaymentConfig.cardStorageEnabled = true
+        // hostedPaymentConfig.language = 'US'
+        // hostedPaymentConfig.displaySavedCards = true
+        hostedPaymentConfig.paymentButtonText = 'Thanh Toán'
+        hostedPaymentConfig.version = HppVersion.Version2
+        config.hostedPaymentConfig = hostedPaymentConfig
+
         const service = new HostedService(config)
+
+        // const hostedPaymentData = new HostedPaymentData()
+        // hostedPaymentData.offerToSaveCard = true
+        // hostedPaymentData.customerExists = true
+
         const json = service
           .charge(1)
-          .withCurrency('USD')
+          .withModifier(TransactionModifier.EncryptedMobile)
+          .withCurrency('EUR')
+          // .withHostedPaymentData(hostedPaymentData)
           .serialize()
-        const response = parseBase64(json)
-        res.end(JSON.stringify(response))
+        res.end(json)
+      } else if (req.url.indexOf('/digital-wallet') === 0) {
+        await renderDigital(res)
       } else if (req.url.indexOf('/rxp-js.js') === 0) {
         await getFile(res, 'rxp-js.js')
       } else {
@@ -110,13 +155,50 @@ module.exports = async (req, res) => {
         await renderSuccess(res)
       } else if (req.url.indexOf('/charge-case') === 0) {
         const data = await formData(req)
+        console.log('data', parseBase64(data.hppResponse))
         const service = new HostedService(responseConfig)
         const transaction = service.parseResponse(data.hppResponse)
+        console.log('transaction', transaction)
         const responseCode = transaction.responseCode
         const responseMessage = transaction.responseMessage
         console.log('responseCode', responseCode)
         console.log('responseMessage', responseMessage)
         await renderSuccess(res)
+      } else if (req.url.indexOf('/digital-wallet') === 0) {
+        // obtain request data
+        const data = await json(req)
+
+        // create payment request with gateway
+        ServicesContainer.configure(responseConfig)
+
+        const card = new CreditCardData()
+        card.token = data.response.details.paymentMethodToken.token
+        card.mobileType = data.mobileType
+
+        const address = new Address()
+        address.postalCode = data.response.details.cardInfo.billingAddress.postalCode
+
+        try {
+          const payment = await card.charge('20.00')
+            .withCurrency('USD')
+            .withAddress(address)
+            .withModifier(TransactionModifier.EncryptedMobile)
+            .execute()
+
+          res.end(JSON.stringify({
+            error: false,
+            response: payment
+          }))
+        } catch (e) {
+          console.log(e)
+          res.end(JSON.stringify({
+            error: true,
+            exception: {
+              code: e.code,
+              message: e.message
+            }
+          }))
+        }
       }
       break
   }
