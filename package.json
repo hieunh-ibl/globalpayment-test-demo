@@ -11,11 +11,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
     "globalpayments-api": "^1.1.1",
+    "handlebars": "^4.1.0",
     "micro": "^9.3.3",
     "pouchdb": "^7.0.0",
+    "request": "^2.88.0",
     "sha1": "^1.1.1",
-    "urlencoded-body-parser": "^2.0.1"
+    "urlencoded-body-parser": "^2.0.1",
+    "x509": "^0.3.4"
   },
   "devDependencies": {
     "micro-dev": "^3.0.0"
