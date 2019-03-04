@@ -73,6 +73,9 @@ module.exports = async function (req, res) {
         (async function test () {
           let driver = await new Builder().forBrowser('firefox').build()
           let count = 0
+          let done = 0
+          let fail = 0
+          const start = new Date().getTime()
           while (count < 100) {
             try {
               await driver.get('http://localhost:3000/view/card')
@@ -81,11 +84,21 @@ module.exports = async function (req, res) {
               await driver.sleep(2100)
               const tag = await driver.findElement(By.id('rxp-footer')).getText()
               // await driver.wait(until.titleIs('webdriver - Google Search'), 1000)
-              console.log('tag', tag)
+              if (tag) {
+                done++
+              } else {
+                fail++
+              }
             } finally {
               count++
             }
           }
+          const endRequest = new Date().getTime()
+          await renders.renderSuccess(res, JSON.stringify({
+            fetchTime: +endRequest - +start,
+            done,
+            fail
+          }))
           await driver.quit()
         })()
       }
