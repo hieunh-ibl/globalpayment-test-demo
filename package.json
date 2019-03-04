@@ -17,6 +17,7 @@
     "micro": "^9.3.3",
     "pouchdb": "^7.0.0",
     "request": "^2.88.0",
+    "selenium-webdriver": "^4.0.0-alpha.1",
     "sha1": "^1.1.1",
     "urlencoded-body-parser": "^2.0.1",
     "x509": "^0.3.4"

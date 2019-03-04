@@ -1,9 +1,11 @@
-const view = require('./handlers/views')
-const api = require('./handlers/api')
-const process = require('./handlers/process')
+const viewHandlers = require('./handlers/views')
+const apiHandlers = require('./handlers/api')
+const processHandlers = require('./handlers/process')
+const testHandlers = require('./handlers/test')
 
 module.exports = async (req, res) => {
-  await view(req, res)
-  await api(req, res)
-  await process(req, res)
+  await testHandlers(req, res)
+  await viewHandlers(req, res)
+  await apiHandlers(req, res)
+  await processHandlers(req, res)
 }
