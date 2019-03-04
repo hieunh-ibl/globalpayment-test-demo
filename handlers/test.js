@@ -76,9 +76,12 @@ module.exports = async function (req, res) {
           while (count < 100) {
             try {
               await driver.get('http://localhost:3000/view/card')
-              // await driver.findElement(By.name('q')).sendKeys('webdriver', Key.RETURN);
-              // await driver.wait(until.titleIs('webdriver - Google Search'), 1000);
-              await driver.sleep(3000)
+              await driver.sleep(100)
+              await driver.switchTo().frame(0)
+              await driver.sleep(2100)
+              const tag = await driver.findElement(By.id('rxp-footer')).getText()
+              // await driver.wait(until.titleIs('webdriver - Google Search'), 1000)
+              console.log('tag', tag)
             } finally {
               count++
             }
