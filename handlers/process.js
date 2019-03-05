@@ -33,7 +33,10 @@ module.exports = async function (req, res) {
         } catch (err) {
           console.log('error', err)
         }
-      } else if (req.url.indexOf('/process/authorize') === 0) {
+      }
+      break
+    case 'POST':
+      if (req.url.indexOf('/process/authorize') === 0) {
         const data = await formData(req)
         const json = base64.parseBase64(data.hppResponse)
         payments.setServicesContainer(payments.responseConfig)
@@ -59,5 +62,6 @@ module.exports = async function (req, res) {
         console.log('responseMessage', responseMessage)
         await renders.renderSuccess(res, responseMessage)
       }
+      break
   }
 }
