@@ -7,7 +7,7 @@ const readFileAsync = promisify(fs.readFile)
 const renderCardPayment = async (res) => {
   const html = await readFileAsync('views/card.html', 'utf8')
   const template = Handlebars.compile(html)
-  res.end(template({}))
+  res.end(template({host: process.env.HOST}))
 }
 const renderSuccess = async (res, result) => {
   const html = await readFileAsync('views/success.html', 'utf8')

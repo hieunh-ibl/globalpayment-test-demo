@@ -23,6 +23,7 @@
     "x509": "^0.3.4"
   },
   "devDependencies": {
+    "dotenv": "^6.2.0",
     "micro-dev": "^3.0.0"
   }
 }

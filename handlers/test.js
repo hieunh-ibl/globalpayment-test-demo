@@ -78,7 +78,7 @@ module.exports = async function (req, res) {
           const start = new Date().getTime()
           while (count < 100) {
             try {
-              await driver.get('http://localhost:3000/view/card')
+              await driver.get(`${process.env.HOST}/view/card`)
               await driver.sleep(100)
               await driver.switchTo().frame(0)
               await driver.sleep(2100)
