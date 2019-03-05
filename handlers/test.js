@@ -19,7 +19,7 @@ module.exports = async function (req, res) {
           let done = 0
           let fail = 0
           console.log('preparing')
-          while (count < 6000) {
+          while (count < 8000) {
             const startItem = new Date().getTime()
             const item = {
               index: count,
@@ -61,7 +61,7 @@ module.exports = async function (req, res) {
             done,
             fail
           })
-          await renders.renderSuccess(res, JSON.stringify({
+          res.end(JSON.stringify({
             fetchTime: +endRequest - +start,
             done,
             fail
@@ -81,7 +81,7 @@ module.exports = async function (req, res) {
               await driver.get(`${process.env.HOST}/view/card`)
               await driver.sleep(100)
               await driver.switchTo().frame(0)
-              await driver.sleep(2100)
+              await driver.sleep(2900)
               const tag = await driver.findElement(By.id('rxp-footer')).getText()
               // await driver.wait(until.titleIs('webdriver - Google Search'), 1000)
               if (tag) {
