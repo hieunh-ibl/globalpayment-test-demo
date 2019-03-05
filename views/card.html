@@ -10,12 +10,12 @@
       RealexHpp.setHppUrl('https://pay.sandbox.realexpayments.com/pay');
       // get the HPP JSON from the server-side SDK
       $(document).ready(function () {
-        $.getJSON("http://localhost:3000/api/charge", function (jsonFromServerSdk) {
+        $.getJSON("{{host}}/api/charge", function (jsonFromServerSdk) {
           console.log('jsonFromServerSdk', jsonFromServerSdk)
           RealexHpp.embedded.init(
             "payButtonId",
             "targetIframe",
-            "http://localhost:3000/response/charge",
+            "{{host}}/process/charge",
             jsonFromServerSdk
           );
           $('body').addClass('loaded');
