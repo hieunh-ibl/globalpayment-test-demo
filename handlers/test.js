@@ -70,7 +70,7 @@ module.exports = async function (req, res) {
           console.log('error', err)
         }
       } else if (req.url.indexOf('/test/repeat') === 0) {
-        const NUMBER_PER_REQUEST = 3000
+        const NUMBER_PER_REQUEST = 1000
         payments.setServicesContainer(payments.responseConfig)
         const card = new CreditCardData()
         card.number = '4263970000005262'
@@ -84,6 +84,10 @@ module.exports = async function (req, res) {
             { list: [], done: 0, fail: 0 },
             { list: [], done: 0, fail: 0 },
             { list: [], done: 0, fail: 0 },
+            { list: [], done: 0, fail: 0 },
+            { list: [], done: 0, fail: 0 },
+            { list: [], done: 0, fail: 0 },
+            { list: [], done: 0, fail: 0 },
             { list: [], done: 0, fail: 0 }
           ]
           let count = 0
@@ -91,7 +95,7 @@ module.exports = async function (req, res) {
           let fail = 0
           console.log('preparing')
           console.log('requests', requests)
-          while (count < NUMBER_PER_REQUEST * 6) {
+          while (count < NUMBER_PER_REQUEST * requests.length) {
             const startItem = new Date().getTime()
             let listIndex = 0
             if (count < NUMBER_PER_REQUEST) {
@@ -106,6 +110,14 @@ module.exports = async function (req, res) {
               listIndex = 4
             } else if (count < NUMBER_PER_REQUEST * 6 && count >= NUMBER_PER_REQUEST * 5) {
               listIndex = 5
+            } else if (count < NUMBER_PER_REQUEST * 7 && count >= NUMBER_PER_REQUEST * 6) {
+              listIndex = 6
+            } else if (count < NUMBER_PER_REQUEST * 8 && count >= NUMBER_PER_REQUEST * 7) {
+              listIndex = 7
+            } else if (count < NUMBER_PER_REQUEST * 9 && count >= NUMBER_PER_REQUEST * 8) {
+              listIndex = 8
+            } else if (count < NUMBER_PER_REQUEST * 10 && count >= NUMBER_PER_REQUEST * 9) {
+              listIndex = 9
             }
             const item = {
               index: count,
@@ -153,23 +165,23 @@ module.exports = async function (req, res) {
                   .all(requestList.list.map(item => item.request()))
                   .then(() => {
                     requestCount++
-                    if (requestCount >= 6) {
+                    if (requestCount >= requests.length) {
                       resolve(true)
                     }
                   })
                   .catch(() => {
                     requestCount++
-                    if (requestCount >= 6) {
+                    if (requestCount >= requests.length) {
                       resolve(true)
                     }
                   })
-              }, index * 15000)
+              }, index * 1000)
             })
           }).then(() => {
             const endRequest = new Date().getTime()
             console.log('result', {
               fetchTime: +endRequest - +start,
-              requests: requests.map((item) => ({ done: item.done, fail: item.fail })),
+              requests: requests.map((item) => ({ done: item.done, fail: item.fail, request: item.list.length })),
               done,
               fail
             })
