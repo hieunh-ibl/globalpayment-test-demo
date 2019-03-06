@@ -19,7 +19,9 @@ async function getPaypalURL (data) {
       HPP_STATE: 'IL',
       HPP_ZIP: '50001',
       HPP_COUNTRY: 'IM',
-      HPP_PHONE: '015552390'
+      HPP_PHONE: '015552390',
+      MERCHANT_RESPONSE_URL: 'https://google.com',
+      HPP_TX_STATUS_URL: 'https://google.com'
       // PM_METHODS: 'paypal'
     })
     console.log('result', result.data)
